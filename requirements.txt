@@ -8,6 +8,7 @@ django-sass
 django-ninja
 django-maintenance-mode
 django-tz-detect
+django-jinja
 meilisearch
 easy-thumbnails
 requests

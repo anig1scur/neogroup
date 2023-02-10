@@ -1,9 +1,3 @@
-{% load static %}
-{% load i18n %}
-{% load admin_url %}
-{% load mastodon %}
-{% load oauth_token %}
-{% load truncate %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,24 +7,27 @@
     <link rel="icon" href="/favicon.svg">
     {% block extra_head %}
     <meta property="og:title" content="{{ site_name }}">
-    <meta property="og:description" name="description" content="{{ site_name }}致力于为联邦宇宙居民提供一个自由、开放、互联的小组产品">
+    <meta property="og:description" name="description" content="{{ site_name }} is committed to providing a free, open, interconnected group product for residents of the federal universe.">
     {% endblock %}
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/logo_square.png' %}">
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}/static/img/logo_square.png">
 
     <title>{{ site_name }} - {%block title%}{%endblock%}</title>
 
-    {% include "common_libs.html" with jquery=1 %}
+    {% from 'common_libs.j2' import common_lib %}
+    {{ common_lib(jquery=True) }}
 
-    <script src="{% static 'js/mastodon.js' %}" defer></script>
-    <script src="{% static 'js/home.js' %}" defer></script>
+    <script src="{{ static('js/mastodon.js') }}" defer></script>
+    <script src="{{ static('js/home.js') }}" defer></script>
 </head>
 
 <body>
 <div id="page-wrapper">
     <div id="content-wrapper">
-        {% include "partial/_navbar.html" with current="home" %}
+        {% with current="home" %}
+        {% include "partial/_navbar.html" %}
+        {% endwith %}
         <section id="content">
             <div class="grid grid--reverse-order">
                 <div class="grid__main grid__main--reverse-order">

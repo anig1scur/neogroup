@@ -1,8 +1,6 @@
 {% extends "group/base.html" %}
 {% block title %}Home{% endblock %}
-
 {% block content %}
-{% load thumb %}
 {% if my_groups %}
 <div>
     <h5>我加入的小组</h5>
@@ -10,10 +8,10 @@
         {% for my_group in my_groups %}
         <li style="font-size: 16px;">
         {% if my_group.group.icon_url %}
-        <img width="64" height="64" src="{{my_group.group.icon_url|thumb:'group'}}" class="entity-detail__avatar">
+        <img width="64" height="64" src="{{my_group.group.icon_url}}" class="entity-detail__avatar">
         {% endif %}
-        <a href="{% url 'group:group' my_group.group.id %}">{{my_group.group.name}}</a>
-        - {{my_group.group.description | truncatechars:40}}
+        <a href="#">{{my_group.group.name}}</a>
+        - {{my_group.group.description | truncate(40)}}
         </li>
         {% endfor %}
     </ul>
@@ -21,17 +19,21 @@
 <div class="dividing-line"></div>
 {% endif %}
 
-{% if my_groups_topics %}
+{% macro topics_list(topics, title) %}
 <div>
-    <h5>我加入的小组最新帖子</h5>
+    <h5>{{ title  }}</h5>
     <ul>
-        {% for topic in last_topics %}
+        {% for topic in topics %}
         <li>
-        <a href="{% url 'group:topic' topic.id %}">{{topic.title}}</a> - from <a href="{% url 'group:group' topic.group.id %}">{{topic.group.name}}</a>
+        <a href="#">{{topic.title}}</a> - from <a href="#">{{topic.group.name}}</a>
         </li>
         {% endfor %}
     </ul>
 </div>
+{%- endmacro %}
+
+{% if my_groups_topics %}
+{{ topics_list(my_groups_topics, '我加入的小组最新帖子') }}
 <div class="dividing-line"></div>
 {% endif %}
 
@@ -41,26 +43,18 @@
         {% for group in groups %}
         <li style="font-size: 16px;">
         {% if group.icon_url %}
-        <img width="64" height="64" src="{{group.icon_url|thumb:'group'}}" class="entity-detail__avatar">
+        <img width="64" height="64" src="{{group.icon_url}}" class="entity-detail__avatar">
         {% endif %}
-        <a href="{% url 'group:group' group.id %}">{{group.name}}</a>
-        - {{group.description | truncatechars:40}}
+        <a href="#">{{group.name}}</a>
+        - {{group.description | truncate(40)}}
         </li>
         {% endfor %}
     </ul>
 </div>
 
 <div class="dividing-line"></div>
-<div>
-    <h5>最新帖子</h5>
-    <ul>
-        {% for topic in last_topics %}
-        <li>
-        <a href="{% url 'group:topic' topic.id %}">{{topic.title}}</a> - from <a href="{% url 'group:group' topic.group.id %}">{{topic.group.name}}</a>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+
+{{ topics_list(last_topics, '最新帖子') }}
 
 <div class="dividing-line"></div>
 <div>
@@ -68,7 +62,7 @@
     <ul>
         {% for comment in last_comments %}
         <li>
-        <a href="{% url 'group:topic' comment.topic.id %}">{{comment.content}}</a> - from <a href="{% url 'group:profile' comment.user.mastodon_username %}">{{comment.user.mastodon_username}}</a>
+        <a href="#">{{comment.content}}</a> - from <a href="#">{{comment.user.mastodon_username}}</a>
         </li>
         {% endfor %}
     </ul>
@@ -81,7 +75,6 @@
         {% for user in last_join_users %}
         <li>
         <img width="32" height="32" src="{{ user.mastodon_account.avatar }}" class="user-profile__avatar mast-avatar">
-        <a href="{% url 'group:profile' user.mastodon_username %}">{{user.mastodon_username}}</a>
         </li>
         {% endfor %}
     </ul>

@@ -13,6 +13,6 @@ def home(request):
     if request.user.is_authenticated:
         my_groups = request.user.groupmember_set.order_by('-id')
         my_groups_topics = Topic.objects.filter(group__in=my_groups.values('group_id')).order_by('-id')[:20]
-    return render(request, 'group/home.html', {'groups': groups, 'my_groups': my_groups,
+    return render(request, 'group/home.jinja', {'groups': groups, 'my_groups': my_groups,
                                             'last_topics': last_topics, 'last_join_users': last_join_users,
                                             'last_comments': last_comments, 'my_groups_topics': my_groups_topics})

@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-9zl*vy7c=q%-!onjs)+@%+9qgyhbbh--+7vf2krzaixlo+dubt"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_jinja",
     "django_sass",
     "tz_detect",
     "markdownx",
@@ -67,6 +68,41 @@ MIDDLEWARE = [
 ROOT_URLCONF = "neogroup.urls"
 
 TEMPLATES = [
+    {
+        "BACKEND": "django_jinja.backend.Jinja2",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "match_regex": None,
+            "app_dirname": "templates",
+            # Can be set to "jinja2.Undefined" or any other subclass.
+            "undefined": None,
+            "newstyle_gettext": True,
+            "globals": {
+                'url_for': 'django.urls.reverse',
+            },
+            "extensions": [
+                "jinja2.ext.do",
+                "jinja2.ext.loopcontrols",
+                "jinja2.ext.i18n",
+                "django_jinja.builtins.extensions.CsrfExtension",
+                "django_jinja.builtins.extensions.CacheExtension",
+                "django_jinja.builtins.extensions.DebugExtension",
+                "django_jinja.builtins.extensions.TimezoneExtension",
+                "django_jinja.builtins.extensions.UrlsExtension",
+                "django_jinja.builtins.extensions.StaticFilesExtension",
+                "django_jinja.builtins.extensions.DjangoFiltersExtension",
+            ],
+            "bytecode_cache": {
+                "name": "default",
+                "backend": "django_jinja.cache.BytecodeCache",
+                "enabled": False,
+            },
+            "autoescape": True,
+            "auto_reload": DEBUG,
+            "translation_engine": "django.utils.translation",
+        }
+    },
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],

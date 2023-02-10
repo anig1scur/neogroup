@@ -16,7 +16,7 @@
     <title>{{ site_name }} - {% trans '关注的人' %}</title>
     {% endif %}
 
-    {% include "common_libs.html" with jquery=1 %}
+    {% include "common_libs.j2" with jquery=1 %}
 
     <script src="{% static 'js/mastodon.js' %}"></script>
 
