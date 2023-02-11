@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-9zl*vy7c=q%-!onjs)+@%+9qgyhbbh--+7vf2krzaixlo+dubt"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
@@ -193,7 +193,8 @@ SITE_INFO = {
 # Mastodon configs
 CLIENT_NAME = os.environ.get("APP_NAME", "NeoGroup")
 SITE_INFO["site_name"] = os.environ.get("APP_NAME", "NeoGroup")
-APP_WEBSITE = os.environ.get("APP_URL", "https://neogrp.club")
+# APP_WEBSITE = os.environ.get("APP_URL", "https://anig1scur-psychic-garbanzo-ppxvr67wq64h699v-8000.preview.app.github.dev")
+APP_WEBSITE = "https://anig1scur-psychic-garbanzo-ppxvr67wq64h699v-8000.preview.app.github.dev"
 REDIRECT_URIS = APP_WEBSITE + "/users/OAuth2_login/"
 
 # Timeout of requests to Mastodon, in seconds
