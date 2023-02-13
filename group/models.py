@@ -1,9 +1,11 @@
 from django.db import models
 from django.conf import settings
+from django.core import serializers
 from django.urls import reverse
 from users.models import User
 from common.utils import GenerateDateUUIDMediaFilePath
 from markdown import markdown
+from group.schema import Groupchema, TopicSchema, UserSchema, CommentSchema
 
 
 def group_image_path(instance, filename):
@@ -11,7 +13,20 @@ def group_image_path(instance, filename):
         instance, filename, settings.GROUP_ICON_MEDIA_ROOT
     )
 
-class Group(models.Model):
+
+class SerializerMixin(object):
+    def to_json(self, schema=None):
+        Schema = schema or {
+            "Group": Groupchema,
+            "Topic": TopicSchema,
+            "User": UserSchema,
+            "Comment": CommentSchema,
+        }.get(self.__class__.__name__, lambda: {})
+
+        return Schema().dump(self)
+
+
+class Group(models.Model, SerializerMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255, unique=True)
     description = models.TextField()
@@ -29,7 +44,7 @@ class Group(models.Model):
         return self.name
 
 
-class GroupMember(models.Model):
+class GroupMember(models.Model, SerializerMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     join_reason = models.CharField(max_length=255)
@@ -44,7 +59,7 @@ class GroupMember(models.Model):
         return cls.objects.filter(user=user, group=group).exists()
 
 
-class Topic(models.Model):
+class Topic(models.Model, SerializerMixin):
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -65,7 +80,7 @@ class Topic(models.Model):
         return markdown(self.description)
 
 
-class Comment(models.Model):
+class Comment(models.Model, SerializerMixin):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
@@ -85,7 +100,7 @@ class Comment(models.Model):
         return LikeComment.objects.filter(comment=self).count()
 
 
-class LikeComment(models.Model):
+class LikeComment(models.Model, SerializerMixin):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -1,0 +1,27 @@
+.topic {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  flex-flow: column;
+  margin-bottom: 0.5rem;
+
+  .title {
+    font-size: 3rem;
+    color: #444;
+  }
+  .content {
+    margin-left: 5rem;
+  }
+  .divide {
+    height: 0;
+    width: 100%;
+    margin: 24px 0 24px;
+    border-top: solid 1px #ccc;
+  }
+  .comments {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+}

@@ -6,7 +6,6 @@ from users.models import User
 from group.models import Group, Topic, GroupMember, Comment, LikeComment
 from group.forms import TopicForm, CommentForm, GroupSettingsForm
 
-
 def render_relogin(request):
     return render(
         request,
@@ -155,13 +154,21 @@ def topic(request, topic_id):
                 },
             )
     comment_form = CommentForm()
-    comment_list = topic.comment_set.order_by("id")
+    comment_list = [c.to_json() for c in topic.comment_set.order_by("id")]
     paginator = Paginator(comment_list, 25)
     page_number = int(request.GET.get('page', 1))
     page_obj = paginator.get_page(page_number)
-    last_topics = topic.group.topic_set.order_by("-id")[:5]
-    return render(request, "group/topic.html", {"topic": topic, "form": comment_form, "page_obj": page_obj, "group": topic.group,
-                                            "last_topics": last_topics, "is_member": is_member})
+    last_topics = [t.to_json() for t in topic.group.topic_set.order_by("-id")[:5]]
+    # react_props = {
+    #     "topic": topic.to_json(),
+    #     "comments": comment_list,
+    #     "page": page_obj.number,
+    #     "last_topics": last_topics,
+    #     "is_member": is_member,
+    # }
+    return render(request, "group/react_topic.html",
+                  {"topic": topic.to_json()})
+
 
 def delete_topic(request, topic_id):
     topic = Topic.objects.filter(id=topic_id).first()

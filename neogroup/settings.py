@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "common",
     "users",
     "group",
+    "django_react_templatetags"
 ]
 
 MIDDLEWARE = [
@@ -78,6 +79,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "neogroup.context_processors.site_info",
+                'django_react_templatetags.context_processors.react_context_processor',
             ],
         },
     },
@@ -262,6 +264,7 @@ RQ_QUEUES = {
 }
 
 RQ_SHOW_ADMIN_LINK = True
+REACT_COMPONENT_PREFIX = 'C.'
 
 try:
     from neogroup.local_settings import *

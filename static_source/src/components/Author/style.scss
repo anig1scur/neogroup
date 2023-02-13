@@ -1,0 +1,39 @@
+.author {
+  display: flex;
+  width: 100%;
+
+  .left-side {
+    flex: 1 0 auto;
+    width: 4rem;
+    height: 4rem;
+    .topic-author .avatar {
+      width: 100%;
+      border-radius: 2rem;
+    }
+    margin-right: 1rem;
+  }
+  .right-side {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.2rem;
+
+    .topic {
+      &-user {
+        max-width: 80%;
+
+        &-username {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          .display-name {
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin-right: 0.3rem;
+          }
+        }
+      }
+    }
+  }
+}
