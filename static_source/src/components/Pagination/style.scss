@@ -1,0 +1,83 @@
+$color_1: #2c689c;
+$color_2: #fff;
+$color_3: white;
+$background-color_1: #fff;
+$background-color_2: #218838;
+$border-color_1: #1e7e34;
+
+/* Style the active class (and buttons on mouse-over) */
+.pagination {
+  li {
+    display: inline-block;
+    padding-left: 0;
+  }
+  li {
+    list-style: none;
+    border: 0.9px solid;
+    > a {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      line-height: 1.42857143;
+      text-decoration: none;
+      color: $color_1;
+      background-color: $background-color_1;
+      border: 1px solid #ddd;
+      margin-left: -1px;
+      &:hover {
+        background-color: $background-color_2;
+        color: $color_3;
+      }
+    }
+    > span {
+      position: relative;
+      float: left;
+      padding: 6px 12px;
+      line-height: 1.42857143;
+      text-decoration: none;
+      color: $color_1;
+      background-color: $background-color_1;
+      border: 1px solid #ddd;
+      margin-left: -1px;
+    }
+    &:first-child {
+      > a {
+        margin-left: 0;
+        padding: 0px;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        display: none !important;
+      }
+      > span {
+        margin-left: 0;
+        padding: 0px;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        display: none !important;
+      }
+    }
+    &:last-child {
+      > a {
+        border-bottom-right-radius: 4px;
+        margin-right: 0;
+        padding: 0px !important;
+        border-top-right-radius: 4px;
+        display: none !important;
+      }
+      > span {
+        border-bottom-right-radius: 4px;
+        margin-right: 0;
+        padding: 0px !important;
+        border-top-right-radius: 4px;
+        display: none !important;
+      }
+    }
+  }
+  li.active {
+    > a {
+      color: $color_2;
+      background-color: $background-color_2;
+      border-color: $border-color_1;
+    }
+  }
+}

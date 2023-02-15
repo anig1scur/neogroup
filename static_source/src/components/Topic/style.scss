@@ -27,7 +27,9 @@ body {
     border-top: solid 1px #ccc;
   }
   .comments {
-    width: 100%;
+    &-wrapper {
+      width: 100%;
+    }
     display: flex;
     flex-flow: column;
     align-items: center;

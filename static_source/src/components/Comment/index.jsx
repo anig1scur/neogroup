@@ -12,15 +12,14 @@ export const ReplyIcon = (props) => {
 
 function Comment (props) {
     const {id, user, created_at, content, liked, like_count, onReply, comment_reply} = props;
-    console.log(comment_reply);
 
     return (
-        <div className='comment'>
+        <div className='comment' id={`comment-${id}`}>
             <Author {...user} authored_at={created_at} />
             <div className='comment-content'>
                 {
                     comment_reply &&
-                     <Quote comment={comment_reply} />
+                    <Quote comment={comment_reply} />
                 }
                 <div className='comment-text'>
                     {content}

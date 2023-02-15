@@ -18,8 +18,20 @@
     }
   }
   &-action {
+    display: flex;
     align-self: flex-end;
-    margin-right: 0.8rem;
+    .share-to-mastodon {
+      margin-right: 0.5rem;
+      cursor: pointer;
+      svg {
+        fill: $gray;
+      }
+      &.yes {
+        svg {
+          fill: $purple2;
+        }
+      }
+    }
     .submit {
       cursor: pointer;
       color: $purple2;

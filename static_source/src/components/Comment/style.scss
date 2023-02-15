@@ -3,7 +3,11 @@
   align-self: flex-start;
   width: 100%;
   margin-bottom: 2rem;
+  &.highlight {
+    background-color: $gray;
+    tran
 
+  }
   &-content {
     margin-left: 4rem;
   }

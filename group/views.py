@@ -5,12 +5,9 @@ from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from mastodon.api import share_topic, share_comment
 from users.models import User
+from common.config import ITEMS_PER_PAGE
 from group.models import Group, Topic, GroupMember, Comment, LikeComment
 from group.forms import TopicForm, GroupSettingsForm
-
-
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 
 def render_relogin(request):
@@ -142,6 +139,7 @@ def topic(request, topic_id):
                 "msg": "必须填写评论内容",
                 "r": 1,
             })
+
         if comment_reply_id:
             comment_reply = Comment.objects.filter(id=comment_reply_id).first()
         comment = Comment.objects.create(
@@ -158,6 +156,7 @@ def topic(request, topic_id):
             comment.save = lambda **args: None
             comment.shared_link = None
             if not share_comment(comment):
+                # FIXME: ajax need_login attention
                 return render_relogin(request)
 
         return JsonResponse({
@@ -165,28 +164,55 @@ def topic(request, topic_id):
             "r": 0,
         })
 
+    comment_id = request.GET.get("comment_id")
+    page = request.GET.get("page") or 1
+    page_size = 5
+    total = Comment.objects.filter(topic=topic).count()
+    # get page index by comment_id
+    if comment_id:
+        comment = Comment.objects.filter(topic=topic, id=comment_id).first()
+        if comment:
+            index = list(topic.comment_set.values_list('id', flat=True)).index(comment.id)
+            page = index // page_size + 1
 
-    comments = [c.to_json() for c in topic.comment_set.order_by("id")]
+    last_topics = [t.to_json() for t in topic.group.topic_set.order_by("-id")[:5]]
+
+    rs = topic.to_json()
+    rs.update({
+        "comments": [],
+        "last_topics": last_topics,
+        "is_member": is_member,
+        "page": page,
+        "page_size": page_size,
+        "total": total,
+    })
+
+    return render(request, "group/react_topic.html", {"topic": rs})
+
+
+def get_comments(request, topic_id):
+    topic = Topic.objects.filter(id=topic_id).first()
+    if not topic:
+        return JsonResponse({
+            "msg": "话题不存在",
+            "r": 1,
+        })
+    page = request.GET.get("page") or 1
+    per_page = 5
+    start = (int(page) - 1) * per_page
+    comments = [c.to_json() for c in topic.comment_set.order_by("id")[start:start + per_page]]
     liked_comments = []
-
     if request.user.is_authenticated:
         liked_comments = LikeComment.get_liked_comments(
             [c['id'] for c in comments], user=request.user
         )
-    last_topics = [t.to_json()
-                   for t in topic.group.topic_set.order_by("-id")[:5]]
-
     for comment in comments:
         comment["liked"] = comment["id"] in liked_comments
-
-    rs = topic.to_json()
-    rs.update({
+    return JsonResponse({
+        "msg": "ok",
+        "r": 0,
         "comments": comments,
-        "last_topics": last_topics,
-        "is_member": is_member,
     })
-
-    return render(request, "group/react_topic.html", {"topic": rs})
 
 
 def delete_topic(request, topic_id):
