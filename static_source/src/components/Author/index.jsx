@@ -4,7 +4,7 @@ import './style.scss';
 import {getTimeDiffStr} from '../../common/utils';
 
 function Author (props) {
-    const {mastodon_site, mastodon_account, authored_at} = props;
+    const {mastodon_site, mastodon_account, authored_at, showNote=false} = props;
     const {
         acct,
         display_name,
@@ -15,11 +15,10 @@ function Author (props) {
     } = mastodon_account;
 
     const mastodon_site_account = `${acct}@${mastodon_site}`;
-
     return (
         <div className='author'>
             <div className='left-side'>
-                <a href={url} className='topic-author' >
+                <a href={`/group/profile/${mastodon_site_account}/`} className='topic-author' >
                     <img className="avatar" src={avatar} title={`${username}@${mastodon_site}`} />
                 </a>
             </div>
@@ -33,10 +32,10 @@ function Author (props) {
                         </a>
 
                     </div>
-                    {note && <div
+                    {showNote && note && <div
                         className='note'
                         dangerouslySetInnerHTML={{
-                            __html: DOMPurify.sanitize(note)
+                            __html: DOMPurify.sanitize('阿市领导骄傲是多爱速冻个阿苏do个暗锁丢啊搜读奥斯U盾偶爱速冻个阿苏do枷锁阿杜     lasjdlkasjldkasjldkasjlklaksjdlkasjdlksja')
                         }}
                     />}
                 </div>

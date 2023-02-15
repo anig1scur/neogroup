@@ -1,34 +1,27 @@
-.topic {
-  display: flex;
-  align-items: flex-start;
+@import '../../common/color.scss';
+.comment {
+  align-self: flex-start;
   width: 100%;
+  margin-bottom: 2rem;
 
-  .left-side {
-    .topic-author {
-      .avatar {
-        width: 4rem;
-        height: 4rem;
-        border-radius: 2.4rem;
-      }
-    }
-    margin-right: 1.6rem;
+  &-content {
+    margin-left: 4rem;
   }
-  .right-side {
-    width: 100%;
-    .topic {
-      &-header {
-        font-size: 1.2rem;
-        margin-bottom: 0.8rem;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-      }
-      &-title {
-        font-size: 2.4rem;
-        color: #444
-      }
-      &-content {
-        font-size: 1.6rem;
+  &-action {
+    display: flex;
+    float: left;
+    margin-left: 4rem;
+    margin-top: 1rem;
+
+    .like {
+      margin-right: 1rem;
+    }
+    .reply {
+      display: flex;
+      cursor: pointer;
+      svg {
+        fill: $gray;
+        stroke: none;
       }
     }
   }

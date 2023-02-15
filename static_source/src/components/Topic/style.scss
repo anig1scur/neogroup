@@ -1,16 +1,24 @@
+@import '../../common/color.scss';
+
+body {
+  background: $white;
+}
+
 .topic {
   display: flex;
   align-items: flex-start;
   width: 100%;
   flex-flow: column;
   margin-bottom: 0.5rem;
+  &-content {
+    color: $black;
+    margin-left: 4rem;
+  }
 
   .title {
-    font-size: 3rem;
-    color: #444;
-  }
-  .content {
-    margin-left: 5rem;
+    font-size: 2.2rem;
+    color: $black;
+    margin-bottom: 1rem;
   }
   .divide {
     height: 0;
@@ -23,5 +31,12 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+  }
+  .reply-form-wrapper {
+    background-color: white;
+    border-radius: 4px;
+    width: 100%;
+    box-shadow: #0000001f 0 2px 8px;
+    color: $black0;
   }
 }

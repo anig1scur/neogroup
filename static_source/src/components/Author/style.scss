@@ -1,23 +1,24 @@
+@import '../../common/color.scss';
+
 .author {
   display: flex;
   width: 100%;
 
   .left-side {
     flex: 1 0 auto;
-    width: 4rem;
-    height: 4rem;
+    width: 2rem;
+    height: 2rem;
     .topic-author .avatar {
-      width: 100%;
+      width: 3rem;
       border-radius: 2rem;
     }
-    margin-right: 1rem;
   }
   .right-side {
-    width: 100%;
+    width: calc(100% - 4rem);
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    color: $gray2;
 
     .topic {
       &-user {
@@ -27,11 +28,25 @@
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
+          a {
+            text-decoration: none;
+            color: inherit;
+            &:active, &:hover {
+              color: $purple2;
+            }
+          }
+
           .display-name {
-            font-weight: bold;
-            font-size: 1.8rem;
+            color: $black;
+            font-weight: 500;
+            font-size: 1.5rem;
             margin-right: 0.3rem;
           }
+        }
+        .note {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
     }

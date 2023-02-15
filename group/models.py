@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.core import serializers
 from django.urls import reverse
 from users.models import User
 from common.utils import GenerateDateUUIDMediaFilePath
@@ -64,7 +63,7 @@ class Topic(models.Model, SerializerMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    type = models.IntegerField(default=0) # 0 topic 1 question 2 poll
+    type = models.IntegerField(default=0)  # 0 topic 1 question 2 poll
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -84,7 +83,8 @@ class Comment(models.Model, SerializerMixin):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
-    comment_reply = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+    comment_reply = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -99,6 +99,9 @@ class Comment(models.Model, SerializerMixin):
     def like_count(self):
         return LikeComment.objects.filter(comment=self).count()
 
+    def is_liked_by(self, user):
+        return LikeComment.is_liked(user, self)
+
 
 class LikeComment(models.Model, SerializerMixin):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
@@ -111,4 +114,10 @@ class LikeComment(models.Model, SerializerMixin):
 
     @classmethod
     def is_liked(cls, user, comment):
-        return cls.objects.filter(user=user, comment=comment).exists()
+        return cls.objects.filter(user=user, comment=comment).first() is not None
+
+    @classmethod
+    def get_liked_comments(cls, comment_ids, user):
+        if not comment_ids or not user:
+            return []
+        return [l for l in cls.objects.filter(user=user, comment__in=comment_ids).values_list('comment', flat=True)]

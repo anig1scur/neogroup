@@ -198,7 +198,6 @@ SITE_INFO["site_name"] = os.environ.get("APP_NAME", "NeoGroup")
 # APP_WEBSITE = os.environ.get("APP_URL", "https://anig1scur-psychic-garbanzo-ppxvr67wq64h699v-8000.preview.app.github.dev")
 APP_WEBSITE = "https://anig1scur-psychic-garbanzo-ppxvr67wq64h699v-8000.preview.app.github.dev"
 REDIRECT_URIS = APP_WEBSITE + "/users/OAuth2_login/"
-
 # Timeout of requests to Mastodon, in seconds
 MASTODON_TIMEOUT = 30
 

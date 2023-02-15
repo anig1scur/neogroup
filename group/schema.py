@@ -7,6 +7,7 @@ class Schema(RootSchema):
 
 
 class UserSchema(Schema):
+    id = fields.Int()
     following = fields.Raw()
     mastodon_id = fields.Str()
     mastodon_site = fields.Str()
@@ -24,6 +25,7 @@ class UserSchema(Schema):
 
 
 class Groupchema(Schema):
+    id = fields.Int()
     user = fields.Nested(UserSchema)
     name = fields.Str()
     description = fields.Str()
@@ -33,6 +35,7 @@ class Groupchema(Schema):
 
 
 class TopicSchema(Schema):
+    id = fields.Int()
     group = fields.Nested(Groupchema)
     user = fields.Nested(UserSchema)
     title = fields.Str()
@@ -43,12 +46,16 @@ class TopicSchema(Schema):
     absolute_url = fields.Str()
     html_content = fields.Str()
 
-
-class CommentSchema(Schema):
+class BaseCommentSchema(Schema):
+    id = fields.Int()
     user = fields.Nested(UserSchema)
     content = fields.Str()
-    comment_reply = fields.Raw()
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
     absolute_url = fields.Str()
     like_count = fields.Int()
+    is_liked = fields.Bool()
+
+
+class CommentSchema(BaseCommentSchema):
+    comment_reply = fields.Nested(BaseCommentSchema)

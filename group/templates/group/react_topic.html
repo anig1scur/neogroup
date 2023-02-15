@@ -1,13 +1,16 @@
-{% extends "group/base.html" %}
+{% extends "group/react_base.html" %}
 
 {% load react %}
 {% load static %}
 
 {% block content %}
-
-<div id="group-topic">
-    {% react_render component="Topic" props=topic %}
-</div>
+<div class="main">
+{% react_render component="Topic" props=topic %}
 {% react_print %}
+</div>
+{% endblock %}
 
+{% block sidebar %}
+{% react_render component="Sidebar" %}
+{% react_print %}
 {% endblock %}
