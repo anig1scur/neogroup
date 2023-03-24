@@ -1,5 +1,5 @@
 // create-react-app requirement
-process.env.NODE_ENV = 'production';
+// process.env.NODE_ENV = 'production';
 
 require('@babel/register')({
     ignore: [ /(node_modules)/],

@@ -62,7 +62,7 @@ export const NavBar = (props) => {
     return (
         <div className={cx("nav", {short: titleVisible})}>
             <div className='nav-wrapper'>
-                <div class='nav-wrapper-left'>
+                <div className='nav-wrapper-left'>
                     {
                         card ? <a className={cx("nav-card", {show: !titleVisible})} href={card.url} >
                             <img className='nav-card-target' src={(card.icon && "/media/" + card.icon) || "/static/img/logo_blue.png"} />

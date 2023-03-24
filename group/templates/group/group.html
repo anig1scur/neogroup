@@ -8,10 +8,6 @@
 {% load react %}
 {% load static %}
 
-{% block title %}
-{{title}}小组
-{% endblock %}
-
 {% block content %}
 {% react_render component="Group" props=group_props no_placeholder=1 %}
 {% endblock %}

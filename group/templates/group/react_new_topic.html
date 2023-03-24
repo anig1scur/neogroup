@@ -1,0 +1,18 @@
+{% extends "group/react_base.html" %}
+{% block extra_head %}
+<meta property="og:title" content="在{{group.name}}发言">
+<meta property="og:description" name="description" content="{{group.description | truncatechars:100}}">
+{% endblock %}
+
+{% load react %}
+{% load static %}
+
+{% block content %}
+<div>p[op[as</div>
+
+{% react_render component="NewTopic" no_placeholder=1 %}
+{% endblock %}
+
+{% block sidebar %}
+<div>aspodiaopsi</div>
+{% endblock %}
